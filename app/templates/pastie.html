@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block main %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+				<div class="row" id="content">
+					<div class="tabs" role="tabpanel">
+						<nav>
+							<ul class="tabs-navigation">
+								<li><a data-content="pastie" class="selected text-center">Pastie</a></li>
+							</ul>
+						</nav>
+
+						<!-- Contenido de los tabs -->
+						<ul class="tabs-content">
+							<li role="tabpanel" data-content="pastie" class="selected" id="new-pastie">
+								<form class="modal-form">
+									<div class="fieldset row">
+										<div class="col-xs-9 col-sm-10 col-md-10 col-lg-10 no-padding">
+											<label class="image-replace title-label input-label" for="pastie-form-title"></label>
+											<input class="full-width has-padding has-border" name="title" id="pastie-form-title" type="text" placeholder="Título" required disabled="true"> 
+										</div>
+										<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 no-padding">
+											<a class="lock-btn pull-right" disabled="true"></a>
+										</div>
+									</div>
+
+									<div class="fieldset">
+										<label class="image-replace edit-label textarea-label" for="pastie-form-content"></label>
+										<textarea class="full-width has-padding has-border" id="pastie-form-content"placeholder="Contenido" required disabled="true"></textarea>
+									</div>
+
+									<div class="fieldset">
+										<label class="image-replace tag-label input-label" for="pastie-form-tags"></label>
+										<input class="full-width has-padding has-border" name="tags" id="pastie-form-tags" type="text" placeholder="Tags" disabled="true">
+									</div>
+
+									<div class="fieldset">
+										<div class="pull-right">
+											<button class="btn delete-pastie" type="submit">Eliminar</button>
+											<button class="btn edit-pastie">Editar</button>
+										</div>
+									</div>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Espacios de prueba -->
+	<br>
+	<br>
+	<br>
+{% endblock %}

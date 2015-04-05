@@ -1,0 +1,11 @@
+import os
+
+SECRET_KEY = os.urandom(32)
+DEBUG = True
+CSRF_ENABLED = True
+
+DATABASE_QUERY_TIMEOUT = 0.5
+
+# Paginacion
+PASTIE_PER_PAGE = 50
+MAX_SEARCH_RESULTS = 50

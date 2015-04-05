@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Browser tab -->
+		<title id="page-title">Inicio | My Pastie</title>
+		<link rel="shortcut icon" href="statics/images/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="statics/images/favicon.ico" type="image/x-icon">
+
+		<!-- Fuente -->
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+		<!-- Estilos -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="statics/css/hover.min.css">
+		<link rel="stylesheet" href="statics/css/reset.css">
+		<link rel="stylesheet" href="statics/css/style.css">
+		<link rel="stylesheet" href="statics/css/responsive.css">
+	</head>
+	<body>
+		<header role="banner">
+			<div id="main-menu-container" class="navbar-fixed-top">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1" id="content">
+								<div class="navbar-header">
+									<!-- Versión móvil -->
+									<a id="mobile-menu" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar"></a>
+									<!-- Logo -->
+									<a id="logo" class="navbar-brand navbar-left" href="/"></a>
+								</div>
+								
+								<div id="main-navbar" class="collapse navbar-collapse navbar-right">
+									<form class="navbar-form navbar-left" id="search" role="search">
+										<div class="form-group has-feedback has-feedback-left">
+											<label class="image-replace search-label input-label" for="search-term"></label>
+											<input type="text" class="form-control full-width has-padding has-border" placeholder="Buscar" name="search-term" id="search-term">
+										</div>
+									</form>
+									<!-- Opciones -->
+									<ul id="main-menu" class="nav navbar-nav navbar-right">
+
+									<!--
+										Usuario autenticado? 
+										{ # % if current_user.is_authenticated() %#}
+									-->
+
+									{% if g.user %}
+										<li><a id="profile-tab" href="user.html">Mi Perfil</a></li>
+										<li><a id="log-out-tab" href="index.html">Cerrar Sesion</a>
+									{% else %}
+										<li><a id="log-in-tab" href="#log-in">Iniciar sesión</a></li>
+										<li><a id="sign-in-tab" href="#sign-in">Registrarse</a></li>
+									{% endif %}
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</header>
+		<main>
+			{% block main %}{% endblock %}
+		</main>
+
+		<!-- Javascript -->
+		<script type="text/javascript" src="statics/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="statics/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="statics/js/moment.js"></script>
+		<script type="text/javascript" src="statics/js/moment-with-locales.js"></script>
+		<script type="text/javascript" src="statics/js/moment-twitter.js"></script>
+		<script type="text/javascript" src="statics/js/jquery-collapser.min.js"></script>
+		<script type="text/javascript" src="statics/js/jdenticon-1.0.min.js"></script>
+		<script type="text/javascript" src="statics/js/add-ons.js"></script>
+		<script type="text/javascript" src="statics/js/querys.js"></script>
+		<script type="text/javascript" src="statics/js/main.js"></script>
+	</body>
+</html>

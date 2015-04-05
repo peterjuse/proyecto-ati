@@ -1,0 +1,185 @@
+@media only screen and (max-width: 767px) {
+	body{
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	svg#svg-logo{
+		width: 188px;
+	}
+
+	#logo{
+		-webkit-transform: scale(0.75);
+	    -moz-transform: scale(0.75);
+	    -ms-transform: scale(0.75);
+	    -o-transform: scale(0.75);
+	    transform: scale(0.75);
+	}
+
+	/* Modal Registro - Inicio de sesión */
+	.modal .modal-container{
+		margin: 64px auto;
+	}
+
+	.modal .modal-container .modal-items > li{
+		font-size: 15px;
+	}
+
+	.modal .modal-container textarea, .modal .modal-container button, .modal .modal-container label, .modal .modal-container a, .modal .modal-container input, .modal .modal-container p{		
+		font-size: 13px;
+	}
+
+	.modal-form{
+		padding: 24px;
+	}
+
+	@media only screen and (max-width: 365px){
+		.modal .modal-container .modal-items > li{
+			font-size: 13px;
+		}
+
+		.modal .modal-container textarea, .modal .modal-container button, .modal .modal-container label, .modal .modal-container a, .modal .modal-container input, .modal .modal-container p{		
+			font-size: 11px;
+		}
+
+		.modal-form{
+			padding: 20px;
+		}
+	}
+		
+	.modal .modal-container .modal-items a {
+		height: 50px;
+		line-height: 50px;
+	}
+	
+	.modal-form .fieldset{
+		margin: 16px 0;
+	}
+	
+	.modal-form-message {
+		padding: 45px 45px 0;
+	}
+
+	#sidebar{
+		display: none;
+	}
+
+	.panel-header, .panel-container {
+		width: 90%;
+	}
+
+	.panel-content p, .panel-footer {
+		font-size: 14px;
+		line-height: 1.4;
+	}
+
+	.panel-footer .media-object{
+		width: 32px;
+		height: 32px;
+	}
+}
+
+@media only screen and (min-width: 768px){
+	#logo{
+		-webkit-transform: scale(0.8);
+	    -moz-transform: scale(0.8);
+	    -ms-transform: scale(0.8);
+	    -o-transform: scale(0.8);
+	    transform: scale(0.8);
+	}
+
+	svg#svg-logo{
+		width: 200px;
+	}
+
+	.tabs-content {
+		min-height: 480px;
+	}
+
+	.tabs-content > li {
+		padding: 25px 25px 25px 105px;
+	}
+
+	.tabs-navigation {
+		width: 80px;
+		float: left;
+	}
+
+	.tabs-navigation a {
+		height: 80px;
+		width: 80px;
+		padding-top: 45px;
+	}
+
+	.tabs-navigation a::before {
+		top: 22px;
+	}
+
+	.tabs::after {
+		display: none;
+	}
+
+	.tabs nav {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		box-shadow: inset 0 -2px 3px rgba(203, 196, 130, 0.06);
+		z-index: 1;
+	}
+
+	.panel-header, .panel-container {
+		width: 70%;
+	}
+}
+
+@media only screen and (min-width: 960px) {
+	#logo{
+		-webkit-transform: scale(1);
+	    -moz-transform: scale(1);
+	    -ms-transform: scale(1);
+	    -o-transform: scale(1);
+	    transform: scale(1);
+	}
+
+	svg#svg-logo{
+		width: inherit;
+	}
+
+	.tabs-content {
+		min-height: 0;
+	}
+
+	.tabs-content > li {
+		padding: 25px;
+	}
+
+	.tabs-navigation {
+		width: auto;
+		background-color: #f8f7ee;
+		box-shadow: inset 0 -2px 3px rgba(203, 196, 130, 0.06);
+	}
+
+	.tabs-navigation a {
+		height: 60px;
+		line-height: 60px;
+		width: auto;
+		text-align: left;
+		padding: 0 2em 0 4em;
+		font-size: 14px;
+	}
+
+	.tabs-navigation a::before {
+		top: 50%;
+		margin-top: -10px;
+		margin-left: 0;
+		left: 28px;
+	}
+
+	.tabs nav {
+		position: relative;
+		float: none;
+		background: transparent;
+		box-shadow: none;
+	}
+}

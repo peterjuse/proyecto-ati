@@ -13,13 +13,13 @@ create type state as enum ('eliminado', 'creado', 'modificado');
 
 create table users (
 	id integer primary key,
-	username varchar(16) unique not null ,
-	password varchar(70) not null,
-	email varchar(100) unique not null,
-	name varchar(50) not null,
-	lastname varchar(50),
-	country varchar(50),
-	city varchar(50),
+	username varchar unique not null ,
+	password varchar not null,
+	email varchar unique not null,
+	name varchar not null,
+	lastname varchar,
+	country varchar,
+	city varchar,
 	member_since timestamp not null, 
 	last_seen timestamp
 );

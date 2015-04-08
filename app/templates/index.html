@@ -17,7 +17,39 @@
 							<!-- Contenido de los tabs -->
 							<ul class="tabs-content">
 								<li class= "container-fluid" role="tabpanel" data-content="pasties" id="pasties">
-									<!--Acá irán los pasties -->
+									<!--Acá vanlos pasties -->
+									<div class="panel-body" id="pasties-user">
+									{% for pastie in pasties %}
+										<div class="pastie" id="pastie-summary-{{pastie[0]}}">
+											<div class="pastie-main media">
+												<div class="pastie-user-image media-left">
+													<a><img class="media-object avatar" width="48" height="48" src=""></a>
+												</div>
+												<div class="media-body">
+													<div class="media-heading">
+														<strong class="pastie-owner">
+															{{pastie[3]}}
+														</strong>
+														<small class="small-text">
+															<span class="pastie-username">
+																<span>@</span>
+																<span>{{pastie[9]}}</span>
+															</span>
+															<span class="separator">-</span>
+														</small>
+													</div>
+													<p class="pastie-content text-justify">{{pastie[2]}}</p>
+													<div class="pastie-footer row">
+
+														<div class="pastie-tags col-sm-9">
+																<a class="pastie-tag"><span>tag</span></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
 								</li>
 								<li class= "container-fluid" role="tabpanel" data-content="users" id="users">
 									<!--Acá irán los users -->
@@ -33,158 +65,6 @@
 						<h2>ase?</h2>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modales -->
-	<div class="modal" id="user-access-modal"> <!-- Registro / Inicio de sesión -->
-		<div class="modal-container">
-			<ul class="modal-items">
-				<li><a href="#sign-in">Registro</a></li>
-				<li><a href="#log-in">Iniciar sesión</a></li>
-			</ul>
-
-			<!-- Iniciar sesión -->
-			<div class="modal-content" id="log-in">
-				<form class="modal-form" id="log-in-form">
-					<div class="fieldset">
-						<label class="image-replace user-label input-label" for="log-in-username"></label>
-						<input class="full-width has-padding has-border" name="username" id="log-in-username" type="text" placeholder="Username" pattern="@?(\w){1,16}" required>
-					</div>
-					<div class="fieldset">
-						<label class="image-replace password-label input-label" for="log-in-password"></label>
-						<input class="full-width has-padding has-border" name="password" id="log-in-password" type="password"  placeholder="Contraseña" pattern="([!#\$%&\?\*-\+\(\)\w]){5,}" required>
-					</div>
-
-					<div class="fieldset">
-						<input type="checkbox" id="remember-me" checked>
-						<label class="input-label" for="remember-me">Recordar cuenta</label>
-					</div>
-
-					<div class="fieldset">
-						<button class="full-width has-padding">Aceptar</button>
-					</div>
-				</form>
-				<div class="modal-bottom-message"><a href="#reset-password-modal">¿Olvidaste tu password?</a></div>
-			</div>
-
-			<!-- Registrar -->
-			<div class="modal-content"  id="sign-in">
-				<form class="modal-form" id="sign-in-form">
-					<div class="fieldset">
-						<label class="image-replace user-label input-label" for="sign-in-name"></label>
-						<input class="full-width has-padding has-border" name="name" id="sign-in-name" type="text" placeholder="Nombre" required>
-					</div>
-
-					<div class="fieldset">
-						<label class="image-replace user-label input-label" for="sign-in-lastname"></label>
-						<input class="full-width has-padding has-border" name="lastname" id="sign-in-lastname" type="text" placeholder="Apellido">
-					</div>
-
-					<div class="fieldset">
-						<label class="image-replace user-label input-label" for="sign-in-username"></label>
-						<input class="full-width has-padding has-border" id="sign-in-username" type="text" name="username" placeholder="Username" required pattern="@?(\w){1,16}">
-					</div>
-
-					<div class="fieldset">
-						<label class="image-replace email-label input-label" for="sign-in-email"></label>
-						<input class="full-width has-padding has-border" id="sign-in-email" type="email" name="email" placeholder="E-mail" required>
-					</div>
-
-					<div class="fieldset">
-						<label class="image-replace password-label input-label" for="sign-in-password"></label>
-						<input class="full-width has-padding has-border" id="sign-in-password" type="password" name="password"placeholder="Contraseña (5 caracteres mínimo)" required pattern="([!#\$%&\?\*-\+\(\)\w]){5,}">
-					</div>
-
-					<div class="fieldset">
-						<input type="checkbox" id="accept-terms" required>
-						<label class="input-label" for="accept-terms">Acepto los <a href="#terms">términos y condiciones</a></label>
-					</div>
-
-					<div class="fieldset">
-						<button class="full-width has-padding">Crear cuenta</button>
-					</div>
-				</form>
-			</div> 
-
-			<!-- Recuperar contraseña -->
-			<div class="modal-content" id="reset-password">
-				<p class="modal-form-message">¿Olvidaste tu password? Ingresa tu email en el que recibirás un link para crear un nuevo password.</p>
-
-				<form class="modal-form" id="reset-password-form">
-					<div class="fieldset">
-						<label class="image-replace email-label input-label" for="reset-password-email"></label>
-						<input class="full-width has-padding has-border" name="email" id="reset-password-email" type="email" placeholder="E-mail" required>
-					</div>
-					<div class="fieldset">
-						<button class="full-width has-padding" type="submit">Reiniciar password</button>
-					</div>
-				</form>
-				<div class="modal-bottom-message"><a href="#login-modal">Volver a iniciar sesión</a></div>
-			</div>
-
-			<button class="close-modal-btn no-border"></button>
-
-		</div>
-	</div>
-	<!-- Nuevo / Editar pastie -->
-	<div class="modal" id="pastie-modal">
-		<div class="modal-container">
-			<ul class="modal-items">
-				<li><a class="selected"></a></li>
-			</ul>
-
-			<div class="modal-content selected">
-				<form class="modal-form">
-					<div class="fieldset row">
-						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 no-padding">
-							<label class="image-replace title-label input-label" for="pastie-form-title"></label>
-							<input class="full-width has-padding has-border" name="title" id="pastie-form-title" type="text" placeholder="Título" required>
-						</div>
-						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 no-padding">
-							<a class="lock-btn pull-right"></a>
-						</div>
-					</div>
-					<div class="fieldset">
-						<label class="image-replace edit-label textarea-label" for="pastie-form-content"></label>
-						<textarea class="full-width has-padding has-border" id="pastie-form-content" placeholder="Contenido" required></textarea>
-					</div>
-					<div class="fieldset">
-						<label class="image-replace tag-label input-label" for="pastie-form-tags"></label>
-						<input class="full-width has-padding has-border" id="pastie-form-tags" placeholder="Tags">
-					</div>
-					<div class="fieldset">
-						<button class="full-width has-padding">Aceptar</button>
-					</div>
-				</form>
-			</div>
-
-			<button class="close-modal-btn no-border"></button>
-		</div>
-	</div>
-	<!-- Ver pastie en pantalla completa -->
-	<div class="panel-modal from-right" id="pastie-panel-modal">
-		<header>
-			<h1></h1>
-			<a href="#" class="panel-close">Close</a>
-		</header>
-		<div class="panel-container container-fluid">
-			<div class="panel-content">
-			</div>
-			<div class="panel-footer">
-				<div class="tags-section">
-				</div>
-				<div class="owner-section media">
-					<div class="media-left">
-						<a href="user.html">
-							<img class="media-object" width="48" height="48">
-						</a>
-						<div class="media-body">
-							<a href="user.html"><h4 class="media-heading"></h4></a>
-							<h5><span>@</span></h5>
-						</div>
-					</div>
-				</div>	
 			</div>
 		</div>
 	</div>

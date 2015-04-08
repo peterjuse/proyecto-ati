@@ -19,7 +19,7 @@ $(document).ready(function(){
 						'childs':[
 							{
 								'type': 'a',
-								'attr': [{'type': 'href', 'value': 'user.html'}],
+								'attr': [{'type': 'href', 'value': '/user'}],
 								'class': '',
 								'value': {},
 								'childs':[
@@ -54,7 +54,7 @@ $(document).ready(function(){
 										'childs':[
 											{
 												'type': 'a',
-												'attr': [{'type': 'href', 'value': 'user.html'}],
+												'attr': [{'type': 'href', 'value': '/user'}],
 												'class': '',
 												'value': {'type': 'text', 'field': 'owner'},
 												'childs':[]
@@ -166,31 +166,8 @@ $(document).ready(function(){
 										'childs':[
 											{
 												'type': 'div',
-												'attr': [],
-												'class': 'pastie-expand pull-right',
-												'value': {},
-												'childs': [
-													{
-														'type': 'a',
-														'attr': [{'type': 'href', 'value': '#pastie-panel-modal'}],
-														'class': 'expand-pastie-btn',
-														'value': {},
-														'childs':[
-															{
-																'type': 'i',
-																'attr': [],
-																'class': 'fa fa-expand fa-fw',
-																'value': {},
-																'childs':[]
-															}
-														]
-													}
-												]
-											},
-											{
-												'type': 'div',
 												'attr': [{'type': 'id', 'value': 'pastie-settings-+id+'}],
-												'class': 'dropup pastie-settings',
+												'class': 'dropup pastie-settings pull-right',
 												'value': {},
 												'childs': [
 													{
@@ -269,6 +246,30 @@ $(document).ready(function(){
 														]
 													}
 												]
+											}
+											,
+											{
+												'type': 'div',
+												'attr': [],
+												'class': 'pastie-expand',
+												'value': {},
+												'childs': [
+													{
+														'type': 'a',
+														'attr': [{'type': 'href', 'value': '#pastie-panel-modal'}],
+														'class': 'expand-pastie-btn',
+														'value': {},
+														'childs':[
+															{
+																'type': 'i',
+																'attr': [],
+																'class': 'fa fa-expand fa-fw',
+																'value': {},
+																'childs':[]
+															}
+														]
+													}
+												]
 											}	
 										]
 									}
@@ -294,7 +295,7 @@ $(document).ready(function(){
 				'childs': [
 					{
 						'type': 'a',
-						'attr': [{'type': 'href', 'value': 'user.html'}],
+						'attr': [{'type': 'href', 'value': '/user'}],
 						'class': '',
 						'value': {},
 						'childs': [
@@ -315,7 +316,7 @@ $(document).ready(function(){
 						'childs': [
 							{
 								'type': 'a',
-								'attr': [{'type': 'href', 'value': 'user.html'}],
+								'attr': [{'type': 'href', 'value': '/user'}],
 								'class': '',
 								'value': {},
 								'childs': [
@@ -407,12 +408,12 @@ $(document).ready(function(){
 				'childs': [
 					{
 						'type': 'a',
-						'attr': [{'type': 'href', 'value': 'search.html'}],
+						'attr': [],
 						'class': '',
 						'value': {},
 						'childs': [
 							{
-								'type': 'h3',
+								'type': 'h4',
 								'attr': [],
 								'class': '',
 								'value': {'type': 'text', 'field': 'name'},
@@ -685,7 +686,6 @@ $(document).ready(function(){
 	});
 
 	$(document).keyup(function(event){ // Cerrar con ESC
-		console.log($(event));
     	if(event.which == 27 && modal.hasClass('visible'))
     		closeModal();
     });
@@ -705,9 +705,12 @@ $(document).ready(function(){
 			element = $(event.target);
 			if(element.is('#log-in-tab'))
 				logInForm();
-			
+
 			if(element.is('#sign-in-tab'))
 				signInForm();
+
+			if(element.is('#pastie-new-tab'))
+				newPastieForm();
 		}
 	});
 
@@ -747,6 +750,15 @@ $(document).ready(function(){
 		userAccess.addClass('visible');
 	};
 
+	function newPastieForm(){
+		pastieModalTab.text('Nuevo pastie');
+		pastieTitle.val('');
+		pastiePrivate.removeClass('lock').addClass('unlock');
+		pastieContent.val('');
+		pastieTags.val('');
+		pastieModal.addClass('visible');
+	}
+
 	function resetPasswordForm(){
 		$('#user-access-modal .selected').removeClass('selected');
 		logInModalTab.addClass('selected');
@@ -770,16 +782,6 @@ $(document).ready(function(){
 		
 			tabContent.animate({'height': selectedContent.innerHeight()}, 200);
 		}
-	});
-
-	// <--- Nuevo Pastie --->
-	newPastieTab.click(function(){
-		pastieModalTab.text('Nuevo pastie');
-		pastieTitle.val('');
-		pastiePrivate.removeClass('lock').addClass('unlock');
-		pastieContent.val('');
-		pastieTags.val('');
-		pastieModal.addClass('visible');
 	});
 
 	$('body').on('click', '.lock-btn.lock', function(){
@@ -807,18 +809,96 @@ $(document).ready(function(){
 		$(this).text('Guardar').removeClass('edit-pastie').addClass('save-pastie');
 	});
 
-	$('.')
-
 	$('body').on('click', '.save-pastie', function(event){
 		//Llamada AJAX y cierre de la vista y/o modal
 		// Mostrar alerta
 	});
 	
 	// <-- Sección de prueba -->
-	$('#pasties').feed(content, pastie, getElements, pasties);
+	//$('#pasties').feed(content, pastie, getElements, pasties);
+	//$('#tags').feed(content, tag, getElements, tags);
+	//$('#users').feed(content, user, getElements, users);
 
 	// <-- Mostrar tooltips -->
 	$('body').tooltip({
 		selector: '[data-toggle=tooltip]'
 	});	
+
+	// <-- Menu del perfil -->
+	$('.list-group-item').on('click',function(e){
+	    var previous = $(this).closest(".list-group").children(".active");
+	    previous.removeClass('active'); // previous list-item
+	    $(e.target).addClass('active'); // activated list-item
+	});
+
+	$('body').on('click', '.expand-pastie-btn', function(event){
+		event.preventDefault();
+		alert("LLego :D");
+		$('.panel-modal').addClass('visible');		
+	});
+
+	$('.panel-modal').on('click', function(event){
+		if( $(event.target).is('.panel-modal') || $(event.target).is('.panel-modal-close') ) { 
+			$('.panel-modal').removeClass('visible');
+			event.preventDefault();
+		}
+	});
+
+	$("#log-in-form").submit(function(event){
+		event.preventDefault();
+		$.post("/login_request",
+		{
+			username:$("#log-in-username").val(),
+			password:$("#log-in-password").val(),
+			remember:$("#remember-me").val()
+		});
+		closeModal();
+		location.reload();
+	});
+
+	$("#sign-in-form").submit(function(event){
+		event.preventDefault();
+		$.post("/sigin_request",
+		{
+			firstname:$("#sign-in-name").val(),
+			lastname:$("#sign-in-lastname").val(),
+			email:$("#sign-in-username").val(),
+			username:$("#sign-in-email").val(),
+			password:$("#sign-in-password").val(),
+			//accept:$("#accept-terms").val()
+		});
+		closeModal();
+		location.reload();
+	});
+
+	$("#log-out-tab").click(function(event){
+		event.preventDefault();
+		$.get("/logout_request");
+		location.reload();
+	});
+
+	$("#pastie-form").submit(function(event){
+		event.preventDefault();
+		var tags_comma = $("#pastie-form-tags").val();
+		var tags_json = {
+		    tags_comma: tags_comma.replace( /,$/, "" ).split(",").map(function(tags_comma) {
+		        return {tags_comma: tags_comma};
+		    })
+		};
+		$.post("/pastie/create_pastie",
+		{
+			title: $("#pastie-form-title").val(),
+			privated: $("#candadito").val(),
+			content: $("#pastie-form-content").val(),
+			tags: tags_comma
+		});
+		closeModal();
+	});
+
+// <-- Menu del perfil -->
+	$('.list-group-item').on('click',function(e){
+	    var previous = $(this).closest(".list-group").children(".active");
+	    previous.removeClass('active'); // previous list-item
+	    $(e.target).addClass('active'); // activated list-item
+	});
 });

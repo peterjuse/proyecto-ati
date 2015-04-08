@@ -8,7 +8,7 @@ class Filter: # Filtrar pasties por tags
 		if pastie:
 			connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
 			ref_database = connection.cursor()
-			ref_database.execute('select * from filters where pastie_id=%d;',(pastie,))
+			ref_database.execute('select * from filters where pastie_id=%s;',(pastie,))
 			result = ref_database.fetchone()
 			if result:
 				self.pastie = result[0]
@@ -22,7 +22,7 @@ class Filter: # Filtrar pasties por tags
 			ref_database = connection.cursor()
 			self.pastie =  pastie
 			self.tag = tag
-			ref_database.execute('insert into filters values(%d,%d);',(self.pastie,self.tag,))
+			ref_database.execute('insert into filters values(%s,%s);',(self.pastie,self.tag,))
 			connection.commit()
 			ref_database.close()
 			connection.close()
@@ -33,12 +33,13 @@ class Filter: # Filtrar pasties por tags
 		return self
 
  	# retornar todos los pasties publicos de un tag en particular
-	def pasties(self):
+	def pasties(self,page,size):
 		result = None
 		if self.tag:
 			connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
 			ref_database = connection.cursor()
-			ref_database.execute('select pasties.* from pasties, filters where filters.tag_id = %d and filters.pastie_id = pasties.id and pasties.private = false order by pasties.last_modified asc;',(self.pastie,))
+			offset = page*size
+			ref_database.execute('select pasties.* from pasties, filters where filters.tag_id = %s and filters.pastie_id = pasties.id and pasties.private = false order by pasties.last_modified asc limit %s offset %s;',(self.pastie, size, offset,))
 			result = ref_database.fetchall()
 			ref_database.close()
 			connection.close()
@@ -50,7 +51,7 @@ class Filter: # Filtrar pasties por tags
 		if self.pastie:
 			connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
 			ref_database = connection.cursor()
-			ref_database.execute('select tags.* from tags, filters where filters.pastie_id = %d and filters.tag_id = tags.id order by tags.last_occurrence asc;',(self.tag,))
+			ref_database.execute('select tags.* from tags, filters where filters.pastie_id = %s and filters.tag_id = tags.id order by tags.last_occurrence asc;',(self.tag,))
 			result = ref_database.fetchall()
 			ref_database.close()
 			connection.close()

@@ -1,4 +1,143 @@
 {% extends "layout.html" %}
 {% block main %}
-			
+	<div class="container-fluid">
+		<div class="row" id="content">
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+				<div class="row" id="content">
+					<div class="row">
+						<div class="col-xs-4 col-sm-4 col-md-3">
+							<div class="text-center header-profile">
+								<img src="{{user.avatar(140)}}" alt="" class="img-rounded img-thumbnail" />
+							</div>
+							<br>
+							<div id="menu" name="menu"class="panel list-group">
+								<a class="list-group-item active" contenteditable="false"data-toggle="collapse" data-target="#activitie" data-parent="#menu">
+									<span class="glyphicon glyphicon-dashboard"></span>
+									Actividad
+								</a>
+								<div id="activitie" class="collapse sublinks">
+									<a class="list-group-item small">
+										<span>Ingreso</span>
+										<span class="pull-right">{{user.member_since}}</span>
+									</a>
+									<a class="list-group-item small">
+										<span>Ultima Visita</span>
+										<span class="pull-right">{{user.last_seen}}</span>
+									</a>
+								</div>
+								<a class="list-group-item" contenteditable="false"data-toggle="collapse" data-target="#overview-pasties" data-parent="#menu">
+									<span class="glyphicon glyphicon-list-alt"></span>
+									Pasties
+								</a>
+								<div id="overview-pasties" class="collapse sublinks">
+									<a class="list-group-item small">
+										<span>Pasties</span>
+										<span class="badge badge-pastie">{{user.nro_pasties_publics()}}</span>
+									</a>
+									<a class="list-group-item small">
+										<span>Pasties Privados</span>
+										<span class="badge badge-pastie">{{user.nro_pasties_privates()}}</span>
+									</a>
+								</div>
+								{% if session['username'] == user.username %}
+								<a class="list-group-item" contenteditable="false">
+									<span class="glyphicon glyphicon-cog"></span>
+									Configuración
+								</a>
+								{% endif %}	
+							</div>
+						</div>
+						<div class="col-xs-8 col-sm-8 col-md-9" contenteditable="false">
+							<br>
+							<div id="header-profile">
+								<div class="row">
+									<span class="text-center col-xs-12 col-sm-12 col-md-12">
+										<h3>{{user.name}} {{user.lastname}}</h3>
+										<span class="glyphicon glyphicon-user"></span>
+										@{{user.username}}
+									<span>
+								</div>
+								<br><br>
+								<p class="row text-center">
+									<span class="col-xs-12 col-sm-6 col-md-6">
+										{%if user.city != None %}
+											<span class="glyphicon glyphicon-map-marker"></span>
+											<cite title="{{user.city}}, {{user.country}}">{{user.city}}, {{user.country}}</cite>
+										{% endif %}
+									</span>
+									<span class="col-xs-12 col-sm-6 col-md-6">
+										<span class="glyphicon glyphicon-envelope"></span>
+										{{user.email}}
+									</span>
+								</p>
+							</div>
+							<br><br><br>
+							<div class="panel panel-default target">
+								<div class="panel-heading">Pasties</div>
+								<div class="panel-body" id="pasties-user">
+									{% for pastie in pasties %}
+										<div class="pastie" id="pastie-summary-{{pastie[0]}}">
+											<div class="pastie-main media">
+												<div class="pastie-user-image media-left">
+													<a><img class="media-object avatar" width="48" height="48" src="{{user.avatar(48)}}"></a>
+												</div>
+												<div class="media-body">
+													<div class="media-heading">
+														<strong class="pastie-owner">
+															{{pastie[3]}}
+														</strong>
+														<small class="small-text">
+															<span class="pastie-username">
+																<span>@</span>
+																<span>{{user.username}}</span>
+															</span>
+															<span class="separator">-</span>
+														</small>
+													</div>
+													<p class="pastie-content text-justify">{{pastie[2]}}</p>
+													<div class="pastie-footer row">
+
+														<div class="pastie-tags col-sm-9">
+																<a class="pastie-tag"><span>tag</span></a>
+														</div>
+
+														<div class="pastie-options col-sm-3">
+															{% if session['username'] == user.username %}
+																<div class="dropup pastie-settings pull-right" id="pastie-settings-1">
+																	<a class="dropdown-toggle" id="pastie-settings-dropdown-1" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+																		<i class="glyphicon glyphicon-option-horizontal" title="Más" data-toggle="tooltip" data-placement="left"></i>
+																	</a>
+																	<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="pastie-settings-dropdown-1">
+																		<li role="presentation">
+																			<a class="edit-pastie-btn" role="menuitem" tabindex="-1">
+																				<i class="glyphicon glyphicon-pencil pull-left"></i>
+																				<span>Editar</span>
+																			</a>
+																			<a class="delete-pastie-btn" role="menuitem" tabindex="-1">
+																				<i class="glyphicon glyphicon-trash pull-left"></i>
+																				<span>Eliminar</span>
+																			</a>
+																		</li>
+																	</ul>
+																</div>
+															{% endif %}
+															<div class="pastie-expand">
+																<a class="expand-pastie-btn" href="#pastie-panel-modal">
+																	<i class="fa fa-expand fa-fw"></i>
+																</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>		
 {% endblock %}

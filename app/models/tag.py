@@ -18,7 +18,7 @@ class Tag:
 			self.occurrences = 1
 			ref_database.execute('select now();')
 			self.last_occurrence = ref_database.fetchone()[0]
-			ref_database.execute('insert into tags values(%d,%s,%d,%s);',(self.id,self.name,self.occurrences,self.last_occurrence,))
+			ref_database.execute('insert into tags values(%s,%s,%s,%s);',(self.id,self.name,self.occurrences,self.last_occurrence,))
 			connection.commit()
 			ref_database.close()
 			connection.close()
@@ -28,7 +28,7 @@ class Tag:
 	def get(self,id):
 		connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
 		ref_database = connection.cursor()
-		ref_database.execute('select * from tags where id=%d;',(id,))
+		ref_database.execute('select * from tags where id=%s;',(id,))
 		result = ref_database.fetchone()
 		if result:
 			self.id = result[0]
@@ -46,7 +46,7 @@ class Tag:
 			self.occurrences = self.occurrences+1
 			ref_database.execute('select now();')
 			self.last_occurrence = ref_database.fetchone()[0]			
-			ref_database.execute('update tags set occurrences=%d,last_occurrence=%s where id=%d;',(self.occurrences,self.last_occurrence,self.id,))
+			ref_database.execute('update tags set occurrences=%s,last_occurrence=%s where id=%s;',(self.occurrences,self.last_occurrence,self.id,))
 			connection.commit()
 			ref_database.close()
 			connection.close()
@@ -57,7 +57,7 @@ class Tag:
 		if self.id:
 			connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
 			ref_database = connection.cursor()
-			ref_database.execute('delete from tags where id=%d;',(self.id,))
+			ref_database.execute('delete from tags where id=%s;',(self.id,))
 			connection.commit()
 			self.id = None
 			self.name = None
@@ -67,6 +67,40 @@ class Tag:
 			connection.close()
 			return True
 		return False
+
+	def all(self):
+		connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
+		ref_database = connection.cursor()
+		# Consulta:
+		ref_database.execute('select * from tags;')
+		result = ref_database.fetchall()
+		# Cerrando conexion con BD:
+		ref_database.close()
+		connection.close()
+		return result
+
+	def trend(self):
+		connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
+		ref_database = connection.cursor()
+		# Consulta:
+		ref_database.execute('select * from tags order by occurrences desc limit 10;')
+		result = ref_database.fetchall()
+		# Cerrando conexion con BD:
+		ref_database.close()
+		connection.close()
+		return result
+
+	def per_page(self, page, size):
+		connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
+		ref_database = connection.cursor()
+		# Consulta:
+		offset = page*size
+		ref_database.execute('select * from tags order by name desc limit %s offset %s;', (size, offset,))
+		result = ref_database.fetchall()
+		# Cerrando conexion con BD:
+		ref_database.close()
+		connection.close()
+		return result
 	
 	#Validaciones:
 	@staticmethod
@@ -86,4 +120,15 @@ class Tag:
 		result = None
 		if name:
 			result = re.match('#[\w-]{3,}', name)
+		return result
+
+	@staticmethod
+	def most_used(index):
+		result = None
+		connection = psycopg2.connect(database = 'mypastie_database', user = 'developer', password = 'developer', host = 'localhost')
+		ref_database = connection.cursor()
+		ref_database.execute('select * from tags limits 10 offset %s;',(index,))
+		result = ref_database.fetchall()
+		ref_database.close()
+		connection.close()
 		return result

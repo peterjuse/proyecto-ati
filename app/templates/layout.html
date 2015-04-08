@@ -6,20 +6,20 @@
 
 		<!-- Browser tab -->
 		<title id="page-title">Inicio | My Pastie</title>
-		<link rel="shortcut icon" href="statics/images/favicon.ico" type="image/x-icon">
-		<link rel="icon" href="statics/images/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="/statics/images/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/statics/images/favicon.ico" type="image/x-icon">
 
 		<!-- Fuente -->
 		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
 		<!-- Estilos -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="statics/css/hover.min.css">
-		<link rel="stylesheet" href="statics/css/reset.css">
-		<link rel="stylesheet" href="statics/css/style.css">
-		<link rel="stylesheet" href="statics/css/responsive.css">
+		<link rel="stylesheet" href="/statics/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/statics/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="/statics/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/statics/css/hover.min.css">
+		<link rel="stylesheet" href="/statics/css/reset.css">
+		<link rel="stylesheet" href="/statics/css/style.css">
+		<link rel="stylesheet" href="/statics/css/responsive.css">
 	</head>
 	<body>
 		<header role="banner">
@@ -45,14 +45,10 @@
 									<!-- Opciones -->
 									<ul id="main-menu" class="nav navbar-nav navbar-right">
 
-									<!--
-										Usuario autenticado? 
-										{ # % if current_user.is_authenticated() %#}
-									-->
-
-									{% if g.user %}
-										<li><a id="profile-tab" href="user.html">Mi Perfil</a></li>
-										<li><a id="log-out-tab" href="index.html">Cerrar Sesion</a>
+									{% if session['username'] %}
+										<li><a id="profile-tab" href="/user/{{session['username']}}">Mi Perfil</a></li>
+										<li><a id="log-out-tab" href="/index">Cerrar Sesion</a></li>
+										<li><a id="pastie-new-tab" href="#pastie-panel-modal">Nuevo Pastie</a></li>
 									{% else %}
 										<li><a id="log-in-tab" href="#log-in">Iniciar sesión</a></li>
 										<li><a id="sign-in-tab" href="#sign-in">Registrarse</a></li>
@@ -67,18 +63,164 @@
 		</header>
 		<main>
 			{% block main %}{% endblock %}
+				<!-- Modales -->
+				<div class="modal" id="user-access-modal"> <!-- Registro / Inicio de sesión -->
+					<div class="modal-container">
+						<ul class="modal-items">
+							<li><a href="#sign-in">Registro</a></li>
+							<li><a href="#log-in">Iniciar sesión</a></li>
+						</ul>
+
+						<!-- Iniciar sesión -->
+						<div class="modal-content" id="log-in">
+							<form class="modal-form" id="log-in-form" action="/index">
+								<div class="fieldset">
+									<label class="image-replace user-label input-label" for="log-in-username"></label>
+									<input class="full-width has-padding has-border" name="username" id="log-in-username" type="text" placeholder="Username" pattern="@?(\w){1,16}" required>
+								</div>
+								<div class="fieldset">
+									<label class="image-replace password-label input-label" for="log-in-password"></label>
+									<input class="full-width has-padding has-border" name="password" id="log-in-password" type="password"  placeholder="Contraseña" pattern="([!#\$%&\?\*-\+\(\)\w]){5,}" required>
+								</div>
+
+								<div class="fieldset">
+									<input type="checkbox" id="remember-me" checked>
+									<label class="input-label" for="remember-me">Recordar cuenta</label>
+								</div>
+
+								<div class="fieldset">
+									<button class="full-width has-padding" id="login-button-ok">Aceptar</button>
+								</div>
+							</form>
+							<div class="modal-bottom-message"><a href="#reset-password-modal">¿Olvidaste tu password?</a></div>
+						</div>
+
+						<!-- Registrar -->
+						<div class="modal-content"  id="sign-in">
+							<form class="modal-form" id="sign-in-form" action="/index">
+								<div class="fieldset">
+									<label class="image-replace user-label input-label" for="sign-in-name"></label>
+									<input class="full-width has-padding has-border" name="name" id="sign-in-name" type="text" placeholder="Nombre" required>
+								</div>
+
+								<div class="fieldset">
+									<label class="image-replace user-label input-label" for="sign-in-lastname"></label>
+									<input class="full-width has-padding has-border" name="lastname" id="sign-in-lastname" type="text" placeholder="Apellido">
+								</div>
+
+								<div class="fieldset">
+									<label class="image-replace user-label input-label" for="sign-in-username"></label>
+									<input class="full-width has-padding has-border" id="sign-in-username" type="text" name="username" placeholder="Username" required pattern="@?(\w){1,16}">
+								</div>
+
+								<div class="fieldset">
+									<label class="image-replace email-label input-label" for="sign-in-email"></label>
+									<input class="full-width has-padding has-border" id="sign-in-email" type="email" name="email" placeholder="E-mail" required>
+								</div>
+
+								<div class="fieldset">
+									<label class="image-replace password-label input-label" for="sign-in-password"></label>
+									<input class="full-width has-padding has-border" id="sign-in-password" type="password" name="password"placeholder="Contraseña (5 caracteres mínimo)" required pattern="([!#\$%&\?\*-\+\(\)\w]){5,}">
+								</div>
+
+								<div class="fieldset">
+									<input type="checkbox" id="accept-terms" required>
+									<label class="input-label" for="accept-terms">Acepto los <a href="#terms">términos y condiciones</a></label>
+								</div>
+
+								<div class="fieldset">
+									<button class="full-width has-padding" id="sigin-button-ok">Crear cuenta</button>
+								</div>
+							</form>
+						</div> 
+
+						<!-- Recuperar contraseña -->
+						<div class="modal-content" id="reset-password">
+							<p class="modal-form-message">¿Olvidaste tu password? Ingresa tu email en el que recibirás un link para crear un nuevo password.</p>
+
+							<form class="modal-form" id="reset-password-form">
+								<div class="fieldset">
+									<label class="image-replace email-label input-label" for="reset-password-email"></label>
+									<input class="full-width has-padding has-border" name="email" id="reset-password-email" type="email" placeholder="E-mail" required>
+								</div>
+								<div class="fieldset">
+									<button class="full-width has-padding" type="submit">Reiniciar password</button>
+								</div>
+							</form>
+							<div class="modal-bottom-message"><a href="#login-modal">Volver a iniciar sesión</a></div>
+						</div>
+
+						<button class="close-modal-btn no-border"></button>
+
+					</div>
+				</div>
+				<!-- Nuevo / Editar pastie -->
+				<div class="modal" id="pastie-modal">
+					<div class="modal-container">
+						<ul class="modal-items">
+							<li><a class="selected"></a></li>
+						</ul>
+
+						<div class="modal-content selected">
+							<form class="modal-form" method="POST" id="pastie-form">
+								<div class="fieldset row">
+									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 no-padding">
+										<label class="image-replace title-label input-label" for="pastie-form-title"></label>
+										<input class="full-width has-padding has-border" name="title" id="pastie-form-title" type="text" placeholder="Título" required>
+									</div>
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 no-padding">
+										<a class="lock-btn pull-right" id="candadito"></a>
+									</div>
+								</div>
+								<div class="fieldset">
+									<label class="image-replace edit-label textarea-label" for="pastie-form-content"></label>
+									<textarea class="full-width has-padding has-border" id="pastie-form-content" placeholder="Contenido" required></textarea>
+								</div>
+								<div class="fieldset">
+									<label class="image-replace tag-label input-label" for="pastie-form-tags"></label>
+									<input class="full-width has-padding has-border" id="pastie-form-tags" placeholder="Tags">
+								</div>
+								<div class="fieldset">
+									<button class="full-width has-padding" id="create_pastie_button">Aceptar</button>
+								</div>
+							</form>
+						</div>
+
+						<button class="close-modal-btn no-border"></button>
+					</div>
+				</div>
+				<!-- Ver pastie en pantalla completa -->
+				<div class="fullscreen-panel">
+					<div class="panel-modal from-right">
+					<header class="panel-modal-header">
+						<h1>Title Goes Here</h1>
+						<a href="#" class="panel-modal-close">Close</a>
+					</header>
+
+					<div class="panel-modal-container">
+						<div class="panel-modal-content">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam magnam accusamus obcaecati nisi eveniet quo veniam quibusdam veritatis autem accusantium doloribus nam mollitia maxime explicabo nemo quae aspernatur impedit cupiditate dicta molestias consectetur, sint reprehenderit maiores. Tempora, exercitationem, voluptate. Sapiente modi officiis nulla sed ullam, amet placeat, illum necessitatibus, eveniet dolorum et maiores earum tempora, quas iste perspiciatis quibusdam vero accusamus veritatis. Recusandae sunt, repellat incidunt impedit tempore iusto, nostrum eaque necessitatibus sint eos omnis! Beatae, itaque, in. Vel reiciendis consequatur saepe soluta itaque aliquam praesentium, neque tempora. Voluptatibus sit, totam rerum quo ex nemo pariatur tempora voluptatem est repudiandae iusto, architecto perferendis sequi, asperiores dolores doloremque odit. Libero, ipsum fuga repellat quae numquam cumque nobis ipsa voluptates pariatur, a rerum aspernatur aliquid maxime magnam vero dolorum omnis neque fugit laboriosam eveniet veniam explicabo, similique reprehenderit at. Iusto totam vitae blanditiis. Culpa, earum modi rerum velit voluptatum voluptatibus debitis, architecto aperiam vero tempora ratione sint ullam voluptas non! Odit sequi ipsa, voluptatem ratione illo ullam quaerat qui, vel dolorum eligendi similique inventore quisquam perferendis reprehenderit quos officia! Maxime aliquam, soluta reiciendis beatae quisquam. Alias porro facilis obcaecati et id, corporis accusamus? Ab porro fuga consequatur quisquam illo quae quas tenetur.</p>
+
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque similique, at excepturi adipisci repellat ut veritatis officia, saepe nemo soluta modi ducimus velit quam minus quis reiciendis culpa ullam quibusdam eveniet. Dolorum alias ducimus, ad, vitae delectus eligendi, possimus magni ipsam repudiandae iusto placeat repellat omnis veritatis adipisci aliquam hic ullam facere voluptatibus ratione laudantium perferendis quos ut. Beatae expedita, itaque assumenda libero voluptatem adipisci maiores voluptas accusantium, blanditiis saepe culpa laborum iusto maxime quae aperiam fugiat odit consequatur soluta hic. Sed quasi beatae quia repellendus, adipisci facilis ipsa vel, aperiam, consequatur eaque mollitia quaerat. Iusto fugit inventore eveniet velit.</p>
+
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque similique, at excepturi adipisci repellat ut veritatis officia, saepe nemo soluta modi ducimus velit quam minus quis reiciendis culpa ullam quibusdam eveniet. Dolorum alias ducimus, ad, vitae delectus eligendi, possimus magni ipsam repudiandae iusto placeat repellat omnis veritatis adipisci aliquam hic ullam facere voluptatibus ratione laudantium perferendis quos ut. Beatae expedita, itaque assumenda libero voluptatem adipisci maiores voluptas accusantium, blanditiis saepe culpa laborum iusto maxime quae aperiam fugiat odit consequatur soluta hic. Sed quasi beatae quia repellendus, adipisci facilis ipsa vel, aperiam, consequatur eaque mollitia quaerat. Iusto fugit inventore eveniet velit.</p>
+
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam magnam accusamus obcaecati nisi eveniet quo veniam quibusdam veritatis autem accusantium doloribus nam mollitia maxime explicabo nemo quae aspernatur impedit cupiditate dicta molestias consectetur, sint reprehenderit maiores. Tempora, exercitationem, voluptate. Sapiente modi officiis nulla sed ullam, amet placeat, illum necessitatibus, eveniet dolorum et maiores earum tempora, quas iste perspiciatis quibusdam vero accusamus veritatis. Recusandae sunt, repellat incidunt impedit tempore iusto, nostrum eaque necessitatibus sint eos omnis! Beatae, itaque, in. Vel reiciendis consequatur saepe soluta itaque aliquam praesentium, neque tempora. Voluptatibus sit, totam rerum quo ex nemo pariatur tempora voluptatem est repudiandae iusto, architecto perferendis sequi, asperiores dolores doloremque odit. Libero, ipsum fuga repellat quae numquam cumque nobis ipsa voluptates pariatur, a rerum aspernatur aliquid maxime magnam vero dolorum omnis neque fugit laboriosam eveniet veniam explicabo, similique reprehenderit at. Iusto totam vitae blanditiis. Culpa, earum modi rerum velit voluptatum voluptatibus debitis, architecto aperiam vero tempora ratione sint ullam voluptas non! Odit sequi ipsa, voluptatem ratione illo ullam quaerat qui, vel dolorum eligendi similique inventore quisquam perferendis reprehenderit quos officia! Maxime aliquam, soluta reiciendis beatae quisquam. Alias porro facilis obcaecati et id, corporis accusamus? Ab porro fuga consequatur quisquam illo quae quas tenetur.</p>
+						</div> <!-- cd-panel-content -->
+					</div> <!-- cd-panel-container -->
+				</div> <!-- cd-panel -->
 		</main>
 
 		<!-- Javascript -->
-		<script type="text/javascript" src="statics/js/jquery-1.11.2.min.js"></script>
-		<script type="text/javascript" src="statics/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="statics/js/moment.js"></script>
-		<script type="text/javascript" src="statics/js/moment-with-locales.js"></script>
-		<script type="text/javascript" src="statics/js/moment-twitter.js"></script>
-		<script type="text/javascript" src="statics/js/jquery-collapser.min.js"></script>
-		<script type="text/javascript" src="statics/js/jdenticon-1.0.min.js"></script>
-		<script type="text/javascript" src="statics/js/add-ons.js"></script>
-		<script type="text/javascript" src="statics/js/querys.js"></script>
-		<script type="text/javascript" src="statics/js/main.js"></script>
+		<script type="text/javascript" src="/statics/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="/statics/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/statics/js/moment.js"></script>
+		<script type="text/javascript" src="/statics/js/moment-with-locales.js"></script>
+		<script type="text/javascript" src="/statics/js/moment-twitter.js"></script>
+		<script type="text/javascript" src="/statics/js/jquery-collapser.min.js"></script>
+		<script type="text/javascript" src="/statics/js/jdenticon-1.0.min.js"></script>
+		<script type="text/javascript" src="/statics/js/add-ons.js"></script>
+		<script type="text/javascript" src="/statics/js/querys.js"></script>
+		<script type="text/javascript" src="/statics/js/main.js"></script>
 	</body>
 </html>

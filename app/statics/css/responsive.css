@@ -65,7 +65,7 @@
 	}
 
 	.panel-header, .panel-container {
-		width: 90%;
+		width: 50%;
 	}
 
 	.panel-content p, .panel-footer {
@@ -129,7 +129,7 @@
 	}
 
 	.panel-header, .panel-container {
-		width: 70%;
+		width: 50%;
 	}
 }
 
